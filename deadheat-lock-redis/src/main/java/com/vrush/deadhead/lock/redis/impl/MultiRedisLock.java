@@ -5,55 +5,47 @@
 package com.vrush.deadhead.lock.redis.impl;
 
 import com.vrush.deadheat.lock.Lock;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import javax.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.core.script.RedisScript;
+import org.springframework.scripting.support.ResourceScriptSource;
 import org.springframework.util.StringUtils;
 
 @Data
 @Slf4j
 @AllArgsConstructor
 public class MultiRedisLock implements Lock {
-  private static final String LOCK_SCRIPT = "local msetnx_keys_with_tokens = {}\n" +
-    "for _, key in ipairs(KEYS) do\n" +
-    "    msetnx_keys_with_tokens[#msetnx_keys_with_tokens + 1] = key\n" +
-    "    msetnx_keys_with_tokens[#msetnx_keys_with_tokens + 1] = ARGV[1]\n" +
-    "end\n" +
-    "local keys_successfully_set = redis.call('MSETNX', unpack(msetnx_keys_with_tokens))\n" +
-    "if (keys_successfully_set == 0) then\n" +
-    "    return false\n" +
-    "end\n" +
-    "local expiration = tonumber(ARGV[2])\n" +
-    "for _, key in ipairs(KEYS) do\n" +
-    "    redis.call('PEXPIRE', key, expiration)\n" +
-    "end\n" +
-    "return true\n";
 
-  private static final String LOCK_RELEASE_SCRIPT = "for _, key in pairs(KEYS) do\n" +
-    "    if redis.call('GET', key) ~= ARGV[1] then\n" +
-    "        return false\n" +
-    "    end\n" +
-    "end\n" +
-    "redis.call('DEL', unpack(KEYS))\n" +
-    "return true\n";
+  private static String LOCK_SCRIPT="";
+  private static String LOCK_RELEASE_SCRIPT="";
+  private static String LOCK_REFRESH_SCRIPT="";
 
-  private static final String LOCK_REFRESH_SCRIPT = "for _, key in pairs(KEYS) do\n" +
-    "    local value = redis.call('GET', key)\n" +
-    "    if (value == nil or value ~= ARGV[1]) then\n" +
-    "        return false\n" +
-    "    end\n" +
-    "end\n" +
-    "for _, key in pairs(KEYS) do\n" +
-    "    redis.call('PEXPIRE', key, ARGV[2])\n" +
-    "end\n" +
-    "return true";
+  static {
+    try {
+      LOCK_SCRIPT = new BufferedReader(new InputStreamReader(new ClassPathResource("lockscript/multilock/LOCK.lua").getInputStream()))
+        .lines().collect(Collectors.joining("\n"));
+      LOCK_RELEASE_SCRIPT = new BufferedReader(new InputStreamReader(new ClassPathResource("lockscript/multilock/RELEASE.lua").getInputStream()))
+        .lines().collect(Collectors.joining("\n"));
+      LOCK_REFRESH_SCRIPT = new BufferedReader(new InputStreamReader(new ClassPathResource("lockscript/multilock/REFRESH.lua").getInputStream()))
+        .lines().collect(Collectors.joining("\n"));
+    } catch (IOException e) {
+      throw new IllegalStateException("Cannot lock as redis script not readable");
+    }
+  }
 
   private final RedisScript<Boolean> lockScript = new DefaultRedisScript<>(LOCK_SCRIPT, Boolean.class);
   private final RedisScript<Boolean> lockReleaseScript = new DefaultRedisScript<>(LOCK_RELEASE_SCRIPT, Boolean.class);
@@ -67,7 +59,8 @@ public class MultiRedisLock implements Lock {
   }
 
   @Override
-  public String acquire(final List<String> keys, final String storeId, final long expiration) {
+  public String acquire(final List<String> keys, final String storeId, final long expiration){
+
     final List<String> keysWithStoreIdPrefix = keys.stream().map(key -> storeId + ":" + key).collect(Collectors.toList());
     final String token = tokenSupplier.get();
 

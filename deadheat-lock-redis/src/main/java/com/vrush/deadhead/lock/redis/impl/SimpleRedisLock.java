@@ -1,10 +1,15 @@
 package com.vrush.deadhead.lock.redis.impl;
 
 import com.vrush.deadheat.lock.AbstractSimpleLock;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.core.script.RedisScript;
@@ -14,15 +19,23 @@ import org.springframework.data.redis.core.script.RedisScript;
  */
 @Slf4j
 public class SimpleRedisLock extends AbstractSimpleLock {
-  private static final String LOCK_SCRIPT = "return redis.call('SET', KEYS[1], ARGV[1], 'PX', tonumber(ARGV[2]), 'NX') and true or false";
 
-  private static final String LOCK_RELEASE_SCRIPT = "return redis.call('GET', KEYS[1]) == ARGV[1] and (redis.call('DEL', KEYS[1]) == 1) or false";
+  private static String LOCK_SCRIPT="";
+  private static String LOCK_RELEASE_SCRIPT="";
+  private static String LOCK_REFRESH_SCRIPT="";
 
-  private static final String LOCK_REFRESH_SCRIPT = "if redis.call('GET', KEYS[1]) == ARGV[1] then\n" +
-    "    redis.call('PEXPIRE', KEYS[1], tonumber(ARGV[2]))\n" +
-    "    return true\n" +
-    "end\n" +
-    "return false";
+  static {
+    try {
+      LOCK_SCRIPT = new BufferedReader(new InputStreamReader(new ClassPathResource("lockscript/singlelock/LOCK.lua").getInputStream()))
+        .lines().collect(Collectors.joining("\n"));
+      LOCK_RELEASE_SCRIPT = new BufferedReader(new InputStreamReader(new ClassPathResource("lockscript/singlelock/RELEASE.lua").getInputStream()))
+        .lines().collect(Collectors.joining("\n"));
+      LOCK_REFRESH_SCRIPT = new BufferedReader(new InputStreamReader(new ClassPathResource("lockscript/singlelock/REFRESH.lua").getInputStream()))
+        .lines().collect(Collectors.joining("\n"));
+    } catch (IOException e) {
+      throw new IllegalStateException("Cannot lock as redis script not readable");
+    }
+  }
 
   private final RedisScript<Boolean> lockScript = new DefaultRedisScript<>(LOCK_SCRIPT, Boolean.class);
   private final RedisScript<Boolean> lockReleaseScript = new DefaultRedisScript<>(LOCK_RELEASE_SCRIPT, Boolean.class);
