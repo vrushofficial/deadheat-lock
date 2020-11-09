@@ -2,7 +2,7 @@
  * @author Vrushabh Joshi
  *
  */
-package com.vrush.deadheat.lock.configuration;
+package com.vrush.deadhead.lock.redis.configuration;
 
 import com.vrush.deadheat.lock.configuration.DistributedLockConfiguration;
 import java.lang.annotation.ElementType;
@@ -15,6 +15,6 @@ import org.springframework.context.annotation.Import;
 @Configuration
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Import(DistributedLockConfiguration.class)
-public @interface EnableDistributedLock {
+@Import({DistributedLockConfiguration.class, RedisDeadHeatLockConfiguration.class})
+public @interface RedisDeadHeatLock {
 }

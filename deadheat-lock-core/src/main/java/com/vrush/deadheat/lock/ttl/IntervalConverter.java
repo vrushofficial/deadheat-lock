@@ -4,7 +4,7 @@
  */
 package com.vrush.deadheat.lock.ttl;
 
-import com.vrush.deadhead.lock.Interval;
+import com.vrush.deadheat.lock.Interval;
 
 /**
  * Converter which converts {@link Interval} to milliseconds.

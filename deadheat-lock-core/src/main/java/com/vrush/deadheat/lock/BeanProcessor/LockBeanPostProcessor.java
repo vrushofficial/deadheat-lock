@@ -4,8 +4,8 @@
  */
 package com.vrush.deadheat.lock.beanprocessor;
 
-import com.vrush.deadhead.lock.Locked;
-import com.vrush.deadhead.lock.key.KeyGenerator;
+import com.vrush.deadheat.lock.Locked;
+import com.vrush.deadheat.lock.key.KeyGenerator;
 import com.vrush.deadheat.lock.retry.RetriableLockFactory;
 import com.vrush.deadheat.lock.ttl.IntervalConverter;
 import lombok.AllArgsConstructor;

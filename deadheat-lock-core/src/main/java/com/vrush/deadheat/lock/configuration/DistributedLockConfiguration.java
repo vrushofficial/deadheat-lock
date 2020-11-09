@@ -4,9 +4,9 @@
  */
 package com.vrush.deadheat.lock.configuration;
 
-import com.vrush.deadhead.lock.key.KeyGenerator;
 import com.vrush.deadheat.lock.beanprocessor.LockBeanPostProcessor;
 import com.vrush.deadheat.lock.beanprocessor.LockTypeResolver;
+import com.vrush.deadheat.lock.key.KeyGenerator;
 import com.vrush.deadheat.lock.keystore.SpelKeyGenerator;
 import com.vrush.deadheat.lock.retry.DefaultRetriableLockFactory;
 import com.vrush.deadheat.lock.retry.DefaultRetryTemplateConverter;

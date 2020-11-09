@@ -4,7 +4,7 @@
  */
 package com.vrush.deadheat.lock.retry;
 
-import com.vrush.deadhead.lock.Locked;
+import com.vrush.deadheat.lock.Locked;
 import com.vrush.deadheat.lock.exception.LockNotAvailableException;
 import com.vrush.deadheat.lock.ttl.IntervalConverter;
 import java.util.Collections;

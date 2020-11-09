@@ -2,7 +2,7 @@
  * @author Vrushabh Joshi
  *
  */
-package com.vrush.deadhead.lock;
+package com.vrush.deadheat.lock;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

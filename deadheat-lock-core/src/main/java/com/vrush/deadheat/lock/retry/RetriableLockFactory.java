@@ -4,8 +4,8 @@
  */
 package com.vrush.deadheat.lock.retry;
 
-import com.vrush.deadhead.lock.Lock;
-import com.vrush.deadhead.lock.Locked;
+import com.vrush.deadheat.lock.Lock;
+import com.vrush.deadheat.lock.Locked;
 
 public interface RetriableLockFactory {
 

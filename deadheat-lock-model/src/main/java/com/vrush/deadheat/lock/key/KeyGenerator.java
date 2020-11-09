@@ -2,7 +2,7 @@
  * @author Vrushabh Joshi
  *
  */
-package com.vrush.deadhead.lock.key;
+package com.vrush.deadheat.lock.key;
 
 import java.lang.reflect.Method;
 import java.util.List;

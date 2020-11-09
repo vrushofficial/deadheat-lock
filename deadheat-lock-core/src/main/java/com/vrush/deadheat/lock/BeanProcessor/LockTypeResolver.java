@@ -4,8 +4,7 @@
  */
 package com.vrush.deadheat.lock.beanprocessor;
 
-import com.vrush.deadhead.lock.Lock;
-
+import com.vrush.deadheat.lock.Lock;
 
 @FunctionalInterface
 public interface LockTypeResolver {

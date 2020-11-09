@@ -4,7 +4,6 @@
  */
 package com.vrush.deadheat.lock;
 
-import com.vrush.deadhead.lock.Lock;
 import java.util.List;
 import java.util.function.Supplier;
 import lombok.Data;
@@ -20,7 +19,7 @@ public abstract class AbstractSimpleLock implements Lock {
 
   @Override
   public String acquire(final List<String> keys, final String storeId, final long expiration) {
-    Assert.isTrue(keys.size() == 1, "Cannot acquire lock for multiple keys with this lock");
+    Assert.isTrue(keys.size() >= 1, "Cannot acquire lock for multiple keys with this lock");
 
     final String token = tokenSupplier.get();
     if (StringUtils.isEmpty(token)) {
@@ -32,13 +31,13 @@ public abstract class AbstractSimpleLock implements Lock {
 
   @Override
   public boolean release(final List<String> keys, final String storeId, final String token) {
-    Assert.isTrue(keys.size() == 1, "Cannot release lock for multiple keys with this lock");
+    Assert.isTrue(keys.size() >= 1, "Cannot release lock for multiple keys with this lock");
     return release(keys.get(0), storeId, token);
   }
 
   @Override
   public boolean refresh(final List<String> keys, final String storeId, final String token, final long expiration) {
-    Assert.isTrue(keys.size() == 1, "Cannot refresh lock for multiple keys with this lock");
+    Assert.isTrue(keys.size() >= 1, "Cannot refresh lock for multiple keys with this lock");
     return refresh(keys.get(0), storeId, token, expiration);
   }
 

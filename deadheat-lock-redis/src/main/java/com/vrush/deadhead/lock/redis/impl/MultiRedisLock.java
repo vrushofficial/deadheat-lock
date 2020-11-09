@@ -4,6 +4,7 @@
  */
 package com.vrush.deadhead.lock.redis.impl;
 
+import com.vrush.deadheat.lock.Lock;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Supplier;
@@ -15,7 +16,6 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.util.StringUtils;
-import com.vrush.deadhead.lock.Lock;
 
 @Data
 @Slf4j

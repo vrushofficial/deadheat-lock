@@ -2,7 +2,7 @@
  * @author Vrushabh Joshi
  *
  */
-package com.vrush.deadhead.lock.exception;
+package com.vrush.deadheat.lock.exception;
 
 public class DistributedLockException extends RuntimeException {
   public DistributedLockException(final String message) {

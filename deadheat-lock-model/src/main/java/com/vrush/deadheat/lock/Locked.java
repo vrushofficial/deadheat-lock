@@ -1,10 +1,9 @@
 /**
  * @author Vrushabh Joshi
- *
  */
-package com.vrush.deadhead.lock;
+package com.vrush.deadheat.lock;
 
-import com.vrush.deadhead.lock.Interval;
+import com.vrush.deadheat.lock.Interval;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -55,7 +54,7 @@ public @interface Locked {
   /**
    * Lock retry interval. How long to wait before trying to acquire the lock again after it was not acquired.
    */
-  Interval retry() default @Interval(value = "50");
+  Interval retry() default @Interval(value = "50", unit = TimeUnit.SECONDS);
 
   /**
    * Lock refresh interval indicated how often should the lock be refreshed during method execution. If it is non-positive, lock will not

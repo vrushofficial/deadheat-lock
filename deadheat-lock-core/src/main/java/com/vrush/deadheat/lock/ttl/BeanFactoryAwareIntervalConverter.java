@@ -4,7 +4,7 @@
  */
 package com.vrush.deadheat.lock.ttl;
 
-import com.vrush.deadhead.lock.Interval;
+import com.vrush.deadheat.lock.Interval;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.util.StringUtils;

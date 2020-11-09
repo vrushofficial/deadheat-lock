@@ -4,7 +4,7 @@
  */
 package com.vrush.deadheat.lock.retry;
 
-import com.vrush.deadhead.lock.Locked;
+import com.vrush.deadheat.lock.Locked;
 import org.springframework.retry.support.RetryTemplate;
 
 /**
