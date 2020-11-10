@@ -4,6 +4,7 @@
  */
 package com.vrush.deadheat.lock.keystore;
 
+import com.vrush.deadheat.lock.aspect.TrackMethod;
 import com.vrush.deadheat.lock.exception.EvaluationConvertException;
 import com.vrush.deadheat.lock.key.KeyGenerator;
 import java.lang.reflect.Method;
@@ -32,6 +33,7 @@ public class SpelKeyGenerator extends CachedExpressionEvaluator implements KeyGe
   private final Map<ExpressionKey, Expression> conditionCache = new ConcurrentHashMap<>();
   private final ConversionService conversionService;
 
+  @TrackMethod
   @Override
   public List<String> resolveKeys(final String lockKeyPrefix, final String expression, final Object object, final Method method, final Object[] args) {
     final Object expressionValue = evaluateExpression(expression, object, method, args);
@@ -65,6 +67,7 @@ public class SpelKeyGenerator extends CachedExpressionEvaluator implements KeyGe
     return list;
   }
 
+  @TrackMethod
   private Object evaluateExpression(final String expression, final Object object, final Method method, final Object[] args) {
     final EvaluationContext context = new MethodBasedEvaluationContext(object, method, args, super.getParameterNameDiscoverer());
     context.setVariable("executionPath", object.getClass().getCanonicalName() + "." + method.getName());

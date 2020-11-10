@@ -4,6 +4,7 @@
  */
 package com.vrush.deadheat.lock;
 
+import com.vrush.deadheat.lock.aspect.TrackMethod;
 import java.util.List;
 import java.util.function.Supplier;
 import lombok.Data;
@@ -17,6 +18,7 @@ import org.springframework.util.StringUtils;
 public abstract class AbstractSimpleLock implements Lock {
   private final Supplier<String> tokenSupplier;
 
+  @TrackMethod
   @Override
   public String acquire(final List<String> keys, final String storeId, final long expiration) {
     Assert.isTrue(keys.size() >= 1, "Cannot acquire lock for multiple keys with this lock");
@@ -29,12 +31,14 @@ public abstract class AbstractSimpleLock implements Lock {
     return acquire(keys.get(0), storeId, token, expiration);
   }
 
+  @TrackMethod
   @Override
   public boolean release(final List<String> keys, final String storeId, final String token) {
     Assert.isTrue(keys.size() >= 1, "Cannot release lock for multiple keys with this lock");
     return release(keys.get(0), storeId, token);
   }
 
+  @TrackMethod
   @Override
   public boolean refresh(final List<String> keys, final String storeId, final String token, final long expiration) {
     Assert.isTrue(keys.size() >= 1, "Cannot refresh lock for multiple keys with this lock");

@@ -5,6 +5,7 @@
 package com.vrush.deadheat.lock.retry;
 
 import com.vrush.deadheat.lock.Lock;
+import com.vrush.deadheat.lock.aspect.TrackMethod;
 import com.vrush.deadheat.lock.exception.LockNotAvailableException;
 import java.util.List;
 import lombok.Data;
@@ -20,6 +21,7 @@ public class RetriableLock implements Lock {
   private final Lock lock;
   private final RetryTemplate retryTemplate;
 
+  @TrackMethod
   @Override
   public String acquire(final List<String> keys, final String storeId, final long expiration) {
     return retryTemplate.execute(ctx -> {
@@ -33,11 +35,13 @@ public class RetriableLock implements Lock {
     });
   }
 
+  @TrackMethod
   @Override
   public boolean release(final List<String> keys, final String storeId, final String token) {
     return lock.release(keys, storeId, token);
   }
 
+  @TrackMethod
   @Override
   public boolean refresh(final List<String> keys, final String storeId, final String token, final long expiration) {
     return lock.refresh(keys, storeId, token, expiration);
