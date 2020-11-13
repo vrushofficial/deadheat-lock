@@ -4,7 +4,7 @@
  */
 package com.vrush.deadhead.lock.redis.annotation;
 
-import com.vrush.deadhead.lock.redis.impl.SimpleRedisLock;
+import com.vrush.deadhead.lock.redis.impl.MultiRedisLock;
 import com.vrush.deadheat.lock.Interval;
 import com.vrush.deadheat.lock.Locked;
 import java.lang.annotation.ElementType;
@@ -16,8 +16,8 @@ import org.springframework.core.annotation.AliasFor;
 
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Locked(type = SimpleRedisLock.class)
-public @interface RedisDeadHeatSingleLock {
+@Locked(type = MultiRedisLock.class)
+public @interface RedisDeadHeatMultiLock {
 
   @AliasFor(annotation = Locked.class)
   boolean manuallyReleased() default false;
@@ -43,4 +43,3 @@ public @interface RedisDeadHeatSingleLock {
   @AliasFor(annotation = Locked.class)
   Interval refresh() default @Interval(value = "0");
 }
-
