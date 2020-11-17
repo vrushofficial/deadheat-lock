@@ -20,4 +20,8 @@ public class RedisDeadHeatLockConfiguration {
     return new SimpleRedisLock(() -> UUID.randomUUID().toString(), stringRedisTemplate);
   }
 
+  @Bean
+  public Lock multiRedisLock(final StringRedisTemplate stringRedisTemplate) {
+    return new MultiRedisLock(stringRedisTemplate);
+  }
 }

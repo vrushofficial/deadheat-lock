@@ -43,7 +43,7 @@ public @interface Locked {
    * If {@link #refresh() is positive, lock expiration will periodically be refreshed. This is useful for tasks that can occasionally hang for
    * longer than their expiration. This enables long-running task to keep the lock for a long time, but release it relatively quickly in case they fail.
    */
-  Interval expiration() default @Interval(value = "10", unit = TimeUnit.SECONDS);
+  Interval expiration() default @Interval(value = "10");
 
   /**
    * Lock timeout interval. The maximum time to wait for lock. If lock is not acquired in this interval, lock is considered to be taken and
