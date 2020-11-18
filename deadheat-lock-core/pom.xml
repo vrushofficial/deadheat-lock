@@ -22,6 +22,7 @@
     <dependency>
       <groupId>com.vrush.deadheat</groupId>
       <artifactId>deadheat-lock-model</artifactId>
+      <version>0.0.1</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
