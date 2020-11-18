@@ -26,9 +26,32 @@
   </properties>
 
   <modules>
-    <module>distributed-lock-model</module>
+    <module>deadheat-lock-model</module>
+    <module>deadheat-lock-core</module>
+    <module>deadheat-lock-redis</module>
+    <module>deadheat-lock-example</module>
   </modules>
 
+  <developers>
+    <developer>
+      <name>Vrushabh Joshi</name>
+      <email>vrushofficial@gmail.com</email>
+      <organizationUrl>https://github.com/vrushofficial/deadheat-lock</organizationUrl>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:https://github.com/vrushofficial/deadheat-lock.git</connection>
+    <developerConnection>scm:git:https://github.com/vrushofficial/deadheat-lock.git</developerConnection>
+    <url>https://github.com/vrushofficial/deadheat-lock</url>
+  </scm>
+
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
   <dependencyManagement>
     <dependencies>
       <dependency>
