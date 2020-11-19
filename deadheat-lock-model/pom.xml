@@ -6,13 +6,25 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>com.vrush.deadheat</groupId>
+    <groupId>com.github.vrushofficial.deadheat-lock</groupId>
     <artifactId>deadheat-lock</artifactId>
     <version>1.0.0</version>
   </parent>
 
   <artifactId>deadheat-lock-model</artifactId>
 
+  <build>
+  <plugins>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-javadoc-plugin</artifactId>
+      <configuration>
+        <source>8</source>
+        <detectJavaApiLink>false</detectJavaApiLink>
+      </configuration>
+    </plugin>
+  </plugins>
+  </build>
   <dependencies>
     <dependency>
       <groupId>org.springframework</groupId>
