@@ -1,0 +1,193 @@
+@startuml
+
+title __DTOS's Class Diagram__\n
+
+  namespace com.vrush.microservices.consumer {
+    namespace dtos {
+      class com.vrush.microservices.consumer.dtos.BookingGetDTO {
+          - creationDate : LocalDateTime
+          - endDate : LocalDate
+          - guestEmail : String
+          - id : UUID
+          - idRoom : UUID
+          - lastUpdate : LocalDateTime
+          - startDate : LocalDate
+          + BookingGetDTO()
+          + BookingGetDTO()
+          {static} + builder()
+          + equals()
+          + getCreationDate()
+          + getEndDate()
+          + getGuestEmail()
+          + getId()
+          + getIdRoom()
+          + getLastUpdate()
+          + getStartDate()
+          + hashCode()
+          + setCreationDate()
+          + setEndDate()
+          + setGuestEmail()
+          + setId()
+          + setIdRoom()
+          + setLastUpdate()
+          + setStartDate()
+          + toString()
+          # canEqual()
+      }
+    }
+  }
+  
+
+  namespace com.vrush.microservices.consumer {
+    namespace dtos {
+      class com.vrush.microservices.consumer.dtos.BookingGetDTO.BookingGetDTOBuilder {
+          - creationDate : LocalDateTime
+          - endDate : LocalDate
+          - guestEmail : String
+          - id : UUID
+          - idRoom : UUID
+          - lastUpdate : LocalDateTime
+          - startDate : LocalDate
+          + build()
+          + creationDate()
+          + endDate()
+          + guestEmail()
+          + id()
+          + idRoom()
+          + lastUpdate()
+          + startDate()
+          + toString()
+          ~ BookingGetDTOBuilder()
+      }
+    }
+  }
+  
+
+  namespace com.vrush.microservices.consumer {
+    namespace dtos {
+      class com.vrush.microservices.consumer.dtos.BookingPostDTO {
+          - ccvEncrypted : String
+          - creditCardNumberEncrypted : String
+          - endDate : LocalDate
+          - expireDateEncrypted : String
+          - guestEmail : String
+          - idRoom : String
+          - startDate : LocalDate
+          + BookingPostDTO()
+          + BookingPostDTO()
+          {static} + builder()
+          + equals()
+          + getCcvEncrypted()
+          + getCreditCardNumberEncrypted()
+          + getEndDate()
+          + getExpireDateEncrypted()
+          + getGuestEmail()
+          + getIdRoom()
+          + getStartDate()
+          + hashCode()
+          + setCcvEncrypted()
+          + setCreditCardNumberEncrypted()
+          + setEndDate()
+          + setExpireDateEncrypted()
+          + setGuestEmail()
+          + setIdRoom()
+          + setStartDate()
+          + toString()
+          # canEqual()
+      }
+    }
+  }
+  
+
+  namespace com.vrush.microservices.consumer {
+    namespace dtos {
+      class com.vrush.microservices.consumer.dtos.BookingPostDTO.BookingPostDTOBuilder {
+          - ccvEncrypted : String
+          - creditCardNumberEncrypted : String
+          - endDate : LocalDate
+          - expireDateEncrypted : String
+          - guestEmail : String
+          - idRoom : String
+          - startDate : LocalDate
+          + build()
+          + ccvEncrypted()
+          + creditCardNumberEncrypted()
+          + endDate()
+          + expireDateEncrypted()
+          + guestEmail()
+          + idRoom()
+          + startDate()
+          + toString()
+          ~ BookingPostDTOBuilder()
+      }
+    }
+  }
+  
+
+  namespace com.vrush.microservices.consumer {
+    namespace dtos {
+      class com.vrush.microservices.consumer.dtos.RoomGetDTO {
+          - creationDate : LocalDateTime
+          - description : String
+          - id : UUID
+          - lastUpdate : LocalDateTime
+          - name : String
+          - perNightValue : BigDecimal
+          + RoomGetDTO()
+          + RoomGetDTO()
+          + equals()
+          + getCreationDate()
+          + getDescription()
+          + getId()
+          + getLastUpdate()
+          + getName()
+          + getPerNightValue()
+          + hashCode()
+          + setCreationDate()
+          + setDescription()
+          + setId()
+          + setLastUpdate()
+          + setName()
+          + setPerNightValue()
+          + toString()
+          # canEqual()
+      }
+    }
+  }
+  
+
+  namespace com.vrush.microservices.consumer {
+    namespace dtos {
+      class com.vrush.microservices.consumer.dtos.RoomPostDTO {
+          - description : String
+          - name : String
+          - perNightValue : BigDecimal
+          + RoomPostDTO()
+          + RoomPostDTO()
+          + equals()
+          + getDescription()
+          + getName()
+          + getPerNightValue()
+          + hashCode()
+          + setDescription()
+          + setName()
+          + setPerNightValue()
+          + toString()
+          # canEqual()
+      }
+    }
+  }
+  
+
+  com.vrush.microservices.consumer.dtos.BookingGetDTO +-down- com.vrush.microservices.consumer.dtos.BookingGetDTO.BookingGetDTOBuilder
+  com.vrush.microservices.consumer.dtos.BookingPostDTO +-down- com.vrush.microservices.consumer.dtos.BookingPostDTO.BookingPostDTOBuilder
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

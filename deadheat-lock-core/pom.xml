@@ -20,9 +20,9 @@
       <optional>true</optional>
     </dependency>
     <dependency>
-      <groupId>com.vrush.deadheat</groupId>
+      <groupId>com.github.vrushofficial.deadheat-lock</groupId>
       <artifactId>deadheat-lock-model</artifactId>
-      <version>0.0.1</version>
+      <version>1.0.0</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
