@@ -1,6 +1,5 @@
-#DeadHeat Lock
-
-"No matter how much we might wish it, there is no way to build a lock that only holy being can open and demons cannot".
+# DeadHeat Lock
+> "No matter how much we might wish it, there is no way to build a lock that only holy being can open and demons cannot".
 A wise like to remind us. 
 
 “Anyone who’s trying to sell you a lock is selling you vain and lies.”
@@ -9,14 +8,14 @@ This may sound rather bleak, but it doesn’t say that locking itself is impossi
 This region(DeadHeat Lock) deal with coarse-grained synchronization within systems, and
 in particular to deal with the problem of electing a leader from among a set of otherwise equivalent servers and cease others in a queue.
 
-###Let's look at the Locking state of affairs first
+### Let's look at the Locking state of affairs first
 Say you have an application in which a client A1 needs to update a file in shared storage (e.g. HDFS or S3) in transactional manner.
 And at the same time a client A2 wants to perform same operations on same data.  
 
 Then what could be the result? Ans: It might be inconsistency, data losts or major performance problems.  
 So, leaving critical sections unprotected could break the correctness of the system and produce critical business errors.
 
-###Protecting a resource with a lock(Solution)
+### Protecting a resource with a lock(Solution)
 A client first acquires the lock, then reads the file, 
 makes some changes, writes the modified file back, and finally releases the lock- A straightforward approch.  
 DeadHeat lock prevents two clients from performing this read-modify-write cycle concurrently.Well, it's not as simple as it sounds.
@@ -45,7 +44,7 @@ However, if the GC pause lasts longer than the lease expiry period, and the clie
 
 ![unsafe-lock.png](unsafe-lock.png)
 
-##Solution : Make Lock safe with fencing   
+## Solution : Make Lock safe with fencing   
 (Which "Redis" does not supports directly)
 
 The fix for this problem is actually pretty simple: you need to include a fencing token with every write request to the storage service. In this context, a fencing token is simply a number that increases (e.g. incremented by the lock service) every time a client acquires the lock. This is illustrated in the following diagram:
@@ -55,21 +54,21 @@ The fix for this problem is actually pretty simple: you need to include a fencin
 
 DeadHeat Lock is re-implement Redisson logic by own, to avoid any additional frameworks in our tech stack. The most important part for me is to emphasize how easy it is to implement locking on your own and what additional benefits we could gain in monitoring and troubleshooting concurrent access.
 
-##Features by DeadHeat locks
-####Mutual exclusion
+## Features by DeadHeat locks
+#### Mutual exclusion
 Only one client can hold a lock at a given moment.
 
-####Deadlock free
+#### Deadlock free
 Distributed locks use a lease-based locking mechanism. If a client acquires a lock and encounters an exception, the lock is automatically released after a certain period. This prevents resource deadlocks.
 
-####Wait-Free Code
+#### Wait-Free Code
 Code will be wait-free and any given task doesn’t have to wait until the lock will be released and just exits early detecting concurrent execution
 
-####Manually Control
+#### Manually Control
 DeadHeat Lock allows users completly handle ttl, expirations, tokens, retrier etc.
 
-##Importing into project
-####Maven
+## Importing into project
+#### Maven
 ```
 <dependency>
   <groupId>com.github.vrushofficial.deadheat-lock</groupId>
@@ -77,29 +76,29 @@ DeadHeat Lock allows users completly handle ttl, expirations, tokens, retrier et
   <version>1.0.0</version>
 </dependency>
 ```
-####Gradle
+#### Gradle
 ```implementation 'com.github.vrushofficial.deadheat-lock:deadheat-lock-redis:1.0.0'```
 
-####Kotlin
+#### Kotlin
 ```implementation("com.github.vrushofficial.deadheat-lock:deadheat-lock-redis:1.0.0")```
 
-####Scala 
+#### Scala 
 ```libraryDependencies += "com.github.vrushofficial.deadheat-lock" % "deadheat-lock-redis" % "1.0.0"```
 
-####Apache Lvy
+#### Apache Lvy
 ```<dependency org="com.github.vrushofficial.deadheat-lock" name="deadheat-lock-redis" rev="1.0.0" />```
 
-####Groovy
+#### Groovy
 ```@Grapes(
   @Grab(group='com.github.vrushofficial.deadheat-lock', module='deadheat-lock-redis', version='1.0.0')
 )
 ```
 
-####Leiningen
+#### Leiningen
 ```[com.github.vrushofficial.deadheat-lock/deadheat-lock-redis "1.0.0"]```
 
 
-##Simple Usage
+## Simple Usage
 All you have to do  is,  
 add `@RedisDeadHeatLock` at main class      
 add  `@RedisDeadHeatSingleLock` or `@RedisDeadHeatMultiLock` as per your convenient with config.    
@@ -112,7 +111,7 @@ With addition, Spring BeanPostProcessor will handle all `@Locked` methods includ
 Each lock needs to define a `SpEL` expression used to acquire the lock.
 Locks can be refreshed automatically on a regular interval. This allows methods that occasionally need to run longer than their expiration. Refreshing the lock periodically prolongs the expiration of its key(s).
 
-###Examples
+### Examples
 
 Locking with multiple keys determined in runtime, use SpEL, for an example:
 ``` 
@@ -165,7 +164,7 @@ public class Example {
        }
    }
 ```
-####SpEL key generator
+#### SpEL key generator
 This is the default key generator the advice uses. If you wish to use your own, simply write your own and define it as a `@Bean`.  
 The default key generator has access to the currently executing context, meaning you can access your fields and methods from SpEL. It uses the `DefaultParameterNameDiscoverer` to discover parameter
  names, so you can access your parameters in several different ways:   
@@ -184,7 +183,7 @@ For more examples, take a look at `com.vrush.deadheat.lock.key.SpelKeyGeneratorT
 
 
 
-####Constantly striving to improve and love to hear what you think. Your feedback will help determine features to add and how we can make the product better for you.
+#### Constantly striving to improve and love to hear what you think. Your feedback will help determine features to add and how we can make the product better for you.
 
     
 
